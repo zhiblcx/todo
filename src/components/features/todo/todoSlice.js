@@ -2,20 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
 const initialState = {
-  value: [
-    {
-      id: '01',
-      taskName: '123111111111111111111111111123123'
-    },
-    {
-      id: '02',
-      taskName: '456'
-    },
-    {
-      id: '03',
-      taskName: '789'
-    }
-  ]
+  value: [],
+  visible: true
+}
+
+if (localStorage.getItem('tasks')) {
+  initialState.value = JSON.parse(localStorage.getItem('tasks'))
+} else {
+  localStorage.setItem('tasks', [])
 }
 
 export const todoSlice = createSlice({
@@ -24,6 +18,7 @@ export const todoSlice = createSlice({
   reducers: {
     addTask: (state, actions) => {
       state.value = [...state.value, { id: nanoid(), taskName: actions.payload }]
+      localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     editTask: (state, actions) => {
       const index = state.value.findIndex(state => state.id == actions.payload.id)
@@ -32,9 +27,13 @@ export const todoSlice = createSlice({
     deleteTask: (state, actions) => {
       const newTasks = state.value.filter((task) => task.id != actions.payload)
       state.value = newTasks
+      localStorage.setItem('tasks', JSON.stringify(state.value))
+    },
+    maskVisible: (state) => {
+      state.visible = !state.visible
     }
   },
 })
-export const { addTask, deleteTask } = todoSlice.actions
+export const { addTask, deleteTask, maskVisible } = todoSlice.actions
 
 export default todoSlice.reducer

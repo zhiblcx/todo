@@ -5,3 +5,8 @@
 body {
   background-color: #1f1f1f;
 }
+
+:root {
+  --addTask--content: 'INSERT TASK';
+  --editTask--content: 'UPDATE TASK';
+}
