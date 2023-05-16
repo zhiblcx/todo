@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 
 const initialState = {
   value: [],
-  visible: true
+  visible: false
 }
 
 if (localStorage.getItem('tasks')) {
@@ -23,6 +23,7 @@ export const todoSlice = createSlice({
     editTask: (state, actions) => {
       const index = state.value.findIndex(state => state.id == actions.payload.id)
       state.value[index] = { id: actions.payload.id, taskName: actions.payload.taskName }
+      localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     deleteTask: (state, actions) => {
       const newTasks = state.value.filter((task) => task.id != actions.payload)
@@ -34,6 +35,6 @@ export const todoSlice = createSlice({
     }
   },
 })
-export const { addTask, deleteTask, maskVisible } = todoSlice.actions
+export const { addTask, deleteTask, editTask, maskVisible } = todoSlice.actions
 
 export default todoSlice.reducer

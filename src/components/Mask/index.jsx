@@ -12,12 +12,11 @@ export default function Mask(props) {
   }
 
   function handlerPrevent(event) {
-    console.log(123)
     event.stopPropagation()
   }
   return (
     <div className={visible ? 'visible mask' : 'mask'} onClick={handlerVisible}>
-      <span style={{ zIndex: 999 }} onClick={event => handlerPrevent(event)}>
+      <span style={{ zIndex: 999, height: '0px' }} onClick={event => handlerPrevent(event)}>
         {props.children}
       </span>
     </div>

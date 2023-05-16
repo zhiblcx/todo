@@ -40,6 +40,7 @@
 }
 
 .label::after {
+  content: var(--after-content, '123');
   background-color: #1f1f1f;
 }
 

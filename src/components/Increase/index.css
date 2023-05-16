@@ -39,7 +39,3 @@
   height: 5px;
   background-color: #2d6c6e;
 }
-
-.label::after {
-  content: var(--addTask--content);
-}
