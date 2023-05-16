@@ -17,7 +17,7 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, actions) => {
-      state.value = [...state.value, { id: nanoid(), taskName: actions.payload }]
+      state.value = [{ id: nanoid(), taskName: actions.payload, checked: false }, ...state.value]
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     editTask: (state, actions) => {
@@ -32,9 +32,14 @@ export const todoSlice = createSlice({
     },
     maskVisible: (state) => {
       state.visible = !state.visible
+    },
+    completeTask: (state, actions) => {
+      const index = state.value.findIndex(state => state.id === actions.payload.id)
+      state.value[index] = { id: actions.payload.id, checked: actions.payload.checked, taskName: state.value[index].taskName }
+      localStorage.setItem('tasks', JSON.stringify(state.value))
     }
   },
 })
-export const { addTask, deleteTask, editTask, maskVisible } = todoSlice.actions
+export const { addTask, deleteTask, editTask, maskVisible, completeTask } = todoSlice.actions
 
 export default todoSlice.reducer
