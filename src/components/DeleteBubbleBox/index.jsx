@@ -13,12 +13,11 @@ export default function DeleteBubbleBox(props) {
   function handlerCancel() {
     setVisible(!visible)
   }
-
   return (
     <div style={{ position: 'absolute', right: '-50px', top: '50px' }}>
       <BubbleBox visible={visible}>
-        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignContent: 'center' }}>
-          <div>确认删除吗？</div>
+        <div className={styles.deleteBubbleBox}>
+          <div style={{ marginTop: '2px', marginBottom: '2px' }}>确认删除吗？</div>
           <div>
             <button className={styles.bubbleBtn} style={{ backgroundColor: '#37bbc0' }} onClick={handlerComfirm}>
               确认

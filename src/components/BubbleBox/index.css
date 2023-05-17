@@ -1,12 +1,2 @@
 .bubbleBox {
-  position: relative;
-  height: 50px;
-  width: 100px;
-  color: white;
-  background-color: #1f1f1f;
-  opacity: 0.8;
-  border-radius: 5px;
-  border: 1px solid #080c0d;
-  font-size: 12px;
-  z-index: 100;
 }

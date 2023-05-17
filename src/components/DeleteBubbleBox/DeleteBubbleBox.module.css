@@ -1,10 +1,25 @@
 .bubbleBtn {
-  width: 45px;
+  width: 40px;
   height: 22px;
-  font-size: 8px;
+  font-size: 2px;
   border: none;
   outline: none;
   border-radius: 2px;
-  margin: 2px;
+  margin: 3px;
+  z-index: 100;
+}
+
+.deleteBubbleBox {
+  display: 'flex';
+  flex-direction: 'column';
+  justify-content: 'space-around';
+  align-content: 'center';
+  position: relative;
+  color: white;
+  background-color: #1f1f1f;
+  opacity: 0.8;
+  border-radius: 5px;
+  border: 1px solid #080c0d;
+  font-size: 12px;
   z-index: 100;
 }

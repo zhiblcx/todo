@@ -17,12 +17,22 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, actions) => {
-      state.value = [{ id: nanoid(), taskName: actions.payload, checked: false }, ...state.value]
+      state.value = [{
+        id: nanoid(),
+        taskName: actions.payload.taskName,
+        startTime: actions.payload.startTime,
+        checked: false
+      }, ...state.value]
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     editTask: (state, actions) => {
-      const index = state.value.findIndex(state => state.id == actions.payload.id)
-      state.value[index] = { id: actions.payload.id, taskName: actions.payload.taskName }
+      const { payload } = actions;
+      const index = state.value.findIndex(({ id }) => id === payload.id)
+      state.value[index] = {
+        ...state.value[index],
+        id: payload.id,
+        taskName: payload.taskName
+      }
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     deleteTask: (state, actions) => {
@@ -34,8 +44,13 @@ export const todoSlice = createSlice({
       state.visible = !state.visible
     },
     completeTask: (state, actions) => {
-      const index = state.value.findIndex(state => state.id === actions.payload.id)
-      state.value[index] = { id: actions.payload.id, checked: actions.payload.checked, taskName: state.value[index].taskName }
+      const { payload } = actions
+      const index = state.value.findIndex(state => state.id === payload.id)
+      state.value[index] = {
+        ...state.value[index],
+        checked: payload.checked,
+        endTime: payload.endTime
+      }
       localStorage.setItem('tasks', JSON.stringify(state.value))
     }
   },

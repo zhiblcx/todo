@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { getFullTime } from '../../utils/getFullTime'
 import { addTask } from '../features/todo/todoSlice.js'
 import TaskBox from '../TaskBox'
 import './index.css'
@@ -26,7 +27,7 @@ function Increase() {
     if (taskName.current.value.trim() == '') {
       return
     }
-    dispatch(addTask(taskName.current.value))
+    dispatch(addTask({ taskName: taskName.current.value, startTime: getFullTime() }))
     taskName.current.value = ''
   }
 
