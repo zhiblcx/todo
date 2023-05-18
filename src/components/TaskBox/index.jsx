@@ -5,8 +5,17 @@ function TaskBox(props) {
 
   return (
     <div className="taskBox">
-      <input className="text" ref={taskName} onFocus={focusInput} onBlur={blurInput} />
-      <label htmlFor="task" ref={label} style={customStyle} />
+      <input
+        className="text"
+        ref={taskName}
+        onFocus={focusInput}
+        onBlur={blurInput}
+      />
+      <label
+        htmlFor="task"
+        ref={label}
+        style={customStyle}
+      />
     </div>
   )
 }

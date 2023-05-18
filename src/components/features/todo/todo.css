@@ -62,7 +62,7 @@
   text-overflow: ellipsis;
 }
 
-@keyframes endTimeEnter {
+@keyframes endTimeEnterAnimation {
   0% {
     opacity: 0.1;
   }
@@ -71,6 +71,6 @@
   }
 }
 
-.endTime {
-  animation: endTimeEnter 0.5s linear forwards;
+.endTimeEnter {
+  animation: endTimeEnterAnimation 0.3s linear forwards;
 }

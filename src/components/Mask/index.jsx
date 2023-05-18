@@ -3,7 +3,7 @@ import { maskVisible } from '../features/todo/todoSlice.js'
 
 import './index.css'
 export default function Mask(props) {
-  const visible = useSelector(state => state.tasks.visible)
+  const visible = useSelector((state) => state.tasks.visible)
 
   const dispatch = useDispatch()
 
@@ -15,8 +15,14 @@ export default function Mask(props) {
     event.stopPropagation()
   }
   return (
-    <div className={visible ? 'visible mask' : 'mask'} onClick={handlerVisible}>
-      <span style={{ zIndex: 999, height: '0px' }} onClick={event => handlerPrevent(event)}>
+    <div
+      className={visible ? 'visible mask' : 'mask'}
+      onClick={handlerVisible}
+    >
+      <span
+        style={{ zIndex: 999, height: '0px' }}
+        onClick={(event) => handlerPrevent(event)}
+      >
         {props.children}
       </span>
     </div>
