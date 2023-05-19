@@ -48,6 +48,7 @@ function Increase() {
       }, 300)
     }
   }
+
   return (
     <div>
       <div className="title">My Task List</div>
@@ -78,7 +79,7 @@ function Increase() {
           </svg>
         </button>
       </div>
-      <div className="line"></div>
+      <div className="line" />
     </div>
   )
 }

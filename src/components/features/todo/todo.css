@@ -74,3 +74,25 @@
 .endTimeEnter {
   animation: endTimeEnterAnimation 0.3s linear forwards;
 }
+
+.taskBtnState {
+  height: 30px;
+  width: 50px;
+  margin-right: 20px;
+  font-size: 8px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: #33c7cc;
+}
+
+.taskBtnState:hover {
+  animation: taskBtnStateHover 0.2s linear forwards;
+}
+
+@keyframes taskBtnStateHover {
+  100% {
+    background-color: rgb(8, 138, 161);
+  }
+}

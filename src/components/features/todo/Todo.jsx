@@ -1,20 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ModifyCard from '../../ModifyCard'
 import EditSvg from './EditSvg.jsx'
 import DeleteSvg from './DeleteSvg.jsx'
 import DeleteBubbleBox from '../../DeleteBubbleBox'
-import { maskVisible, completeTask } from './todoSlice'
+import { maskVisible, completeTask, sortTask } from './todoSlice'
 import { getFullTime } from '../../../utils/getFullTime'
 import './todo.css'
 
 export default function Todo() {
-  const tasks = useSelector((state) => state.tasks.value)
+  const taskTotal = useSelector((state) => state.tasks.value)
+
+  const [tasks, setTasks] = useState(taskTotal)
   const [selectTaskId, setSelectTaskId] = useState(null)
   const [deleteTaskId, setDeleteTaskId] = useState(null)
   const [deleteVisible, setDeleteVisible] = useState(false)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    setTasks(taskTotal)
+  }, [taskTotal])
 
   function handlerDeleteTask(taskId) {
     setDeleteVisible(true)
@@ -32,14 +38,49 @@ export default function Todo() {
     } else {
       dispatch(completeTask({ id: taskID, checked: event.target.checked, endTime: '' }))
     }
+    window.setTimeout(() => {
+      dispatch(sortTask())
+    }, 500)
   }
 
   function onClose() {
     setDeleteVisible(false)
   }
 
+  function handlerTotal() {
+    setTasks(taskTotal)
+  }
+
+  function handlerDone() {
+    setTasks(taskTotal.filter((task) => task.checked == true))
+  }
+
+  function handlerUndone() {
+    setTasks(taskTotal.filter((task) => task.checked != true))
+  }
+
   return (
     <div>
+      <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'center' }}>
+        <button
+          className="taskBtnState"
+          onClick={handlerTotal}
+        >
+          全部
+        </button>
+        <button
+          className="taskBtnState"
+          onClick={handlerDone}
+        >
+          已完成
+        </button>
+        <button
+          className="taskBtnState"
+          onClick={handlerUndone}
+        >
+          未完成
+        </button>
+      </div>
       {tasks.map((task) => (
         <div
           className="card"

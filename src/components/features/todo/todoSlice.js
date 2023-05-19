@@ -51,10 +51,22 @@ export const todoSlice = createSlice({
         checked: payload.checked,
         endTime: payload.endTime
       }
-      localStorage.setItem('tasks', JSON.stringify(state.value))
+      localStorage.setItem("tasks", JSON.stringify(state.value));
+    },
+    sortTask: (state) => {
+      state.value.sort((taskA, taskB) => {
+        if (taskA.checked && !taskB.checked) {
+          return 1;
+        }
+        if (!taskA.checked && taskB.checked) {
+          return -1;
+        }
+        return 0;
+      });
+      localStorage.setItem("tasks", JSON.stringify(state.value));
     }
   },
 })
-export const { addTask, deleteTask, editTask, maskVisible, completeTask } = todoSlice.actions
+export const { addTask, deleteTask, editTask, maskVisible, completeTask, sortTask } = todoSlice.actions
 
 export default todoSlice.reducer
