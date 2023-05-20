@@ -1,5 +1,6 @@
 .aside {
   position: fixed;
+  z-index: 800;
   background-color: #080c0d;
   display: flex;
   flex-direction: column;

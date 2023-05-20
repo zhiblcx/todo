@@ -9,6 +9,7 @@ if (localStorage.getItem('count-timer')) {
   initialState.totalTime = JSON.parse(localStorage.getItem('count-timer'))
 } else {
   localStorage.setItem('count-timer', JSON.stringify([{ tag: 0, weekTime: '00:00:00' }]))
+  initialState.totalTime = JSON.parse(localStorage.getItem('count-timer'))
 }
 
 export const countTimer = createSlice({
@@ -16,7 +17,8 @@ export const countTimer = createSlice({
   initialState,
   reducers: {
     recordFirstTimer: (state) => {
-      if (state.totalTime[state.totalTime.length - 1].endTime == undefined) {
+      console.log()
+      if (state.totalTime[state.totalTime.length - 1] == undefined) {
         state.totalTime[state.totalTime.length - 1] = {
           startTime: getFirstDayOfWeek(),
           endTime: getLastDayOfWeek(),
@@ -52,7 +54,9 @@ export const countTimer = createSlice({
       const hour =
         parseInt(totalSecond / 60 / 60) < 10 ? '0' + parseInt(totalSecond / 60 / 60) : parseInt(totalSecond / 60 / 60)
       const minute =
-        parseInt((totalSecond / 60) % 60) < 10 ? '0' + parseInt(totalSecond / 60) : parseInt(totalSecond / 60)
+        parseInt((totalSecond / 60) % 60) < 10
+          ? '0' + parseInt((totalSecond / 60) % 60)
+          : parseInt((totalSecond / 60) % 60)
       const second = parseInt(totalSecond % 60) < 10 ? '0' + parseInt(totalSecond % 60) : parseInt(totalSecond % 60)
 
       state.totalTime[state.totalTime.length - 1] = {

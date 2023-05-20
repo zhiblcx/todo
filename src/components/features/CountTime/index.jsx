@@ -6,10 +6,21 @@ import { recordFirstTimer, recordLastTimer } from './countTimeSlice'
 
 export default function CountTime() {
   const [timer, setTimer] = useState('00:00:00')
-  const stateBtn = useSelector((state) => state.timer.totalTime[state.timer.totalTime.length - 1].tag || 0)
-  const weekTime = useSelector((state) => state.timer.totalTime[state.timer.totalTime.length - 1].weekTime)
+  const stateBtn = useSelector((state) =>
+    state.timer.totalTime.length ? state.timer.totalTime[state.timer.totalTime.length - 1].tag || 0 : 0
+  )
+
+  const weekTime = useSelector((state) =>
+    state.timer.totalTime.length
+      ? state.timer.totalTime[state.timer.totalTime.length - 1].weekTime || '00:00:00'
+      : '00:00:00'
+  )
   const dispatch = useDispatch()
-  const firstTime = useSelector((state) => state.timer.totalTime[state.timer.totalTime.length - 1].firstTime)
+  const firstTime = useSelector((state) =>
+    state.timer.totalTime.length
+      ? state.timer.totalTime[state.timer.totalTime.length - 1].firstTime || '00:00:00'
+      : '00:00:00'
+  )
 
   useEffect(() => {
     let countTimer
@@ -20,7 +31,9 @@ export default function CountTime() {
         const hour =
           parseInt(totalSecond / 60 / 60) < 10 ? '0' + parseInt(totalSecond / 60 / 60) : parseInt(totalSecond / 60 / 60)
         const minute =
-          parseInt((totalSecond / 60) % 60) < 10 ? '0' + parseInt(totalSecond / 60) : parseInt(totalSecond / 60)
+          parseInt((totalSecond / 60) % 60) < 10
+            ? '0' + parseInt((totalSecond / 60) % 60)
+            : parseInt((totalSecond / 60) % 60)
         const second = parseInt(totalSecond % 60) < 10 ? '0' + parseInt(totalSecond % 60) : parseInt(totalSecond % 60)
         setTimer(hour + ':' + minute + ':' + second)
       }, 1000)
