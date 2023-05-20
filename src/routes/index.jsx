@@ -9,15 +9,15 @@ export default [
     element: <Navigate to="/tasklist" />
   },
   {
-    path: '/tasklist',
+    path: 'tasklist',
     element: <TaskList />
   },
   {
-    path: '/taskclock',
+    path: 'taskclock',
     element: <TaskClock />
   },
   {
-    path: '/taskrecord',
+    path: 'taskrecord',
     element: <TaskRecord />
   }
 ]
