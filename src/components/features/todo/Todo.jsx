@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
 import ModifyCard from '../../ModifyCard'
-import EditSvg from './EditSvg.jsx'
-import DeleteSvg from './DeleteSvg.jsx'
+import EditSvg from '../../Svg/EditSvg'
+import DeleteSvg from '../../Svg/DeleteSvg'
+
 import DeleteBubbleBox from '../../DeleteBubbleBox'
 import { maskVisible, completeTask, sortTask } from './todoSlice'
 import { getFullTime } from '../../../utils/getFullTime'
@@ -15,6 +17,7 @@ export default function Todo() {
   const [selectTaskId, setSelectTaskId] = useState(null)
   const [deleteTaskId, setDeleteTaskId] = useState(null)
   const [deleteVisible, setDeleteVisible] = useState(false)
+  const [styleBtn, setStyleBtn] = useState(0)
 
   const dispatch = useDispatch()
 
@@ -48,35 +51,47 @@ export default function Todo() {
   }
 
   function handlerTotal() {
+    setStyleBtn(0)
     setTasks(taskTotal)
   }
 
   function handlerDone() {
+    setStyleBtn(1)
     setTasks(taskTotal.filter((task) => task.checked == true))
   }
 
   function handlerUndone() {
+    setStyleBtn(2)
     setTasks(taskTotal.filter((task) => task.checked != true))
   }
 
   return (
     <div>
-      <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'center' }}>
+      <div
+        style={{
+          marginBottom: '8px',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
         <button
           className="taskBtnState"
           onClick={handlerTotal}
+          style={{ backgroundColor: styleBtn == 0 ? '#2d6c6e' : '' }}
         >
           全部
         </button>
         <button
           className="taskBtnState"
           onClick={handlerDone}
+          style={{ backgroundColor: styleBtn == 1 ? '#2d6c6e' : '' }}
         >
           已完成
         </button>
         <button
           className="taskBtnState"
           onClick={handlerUndone}
+          style={{ backgroundColor: styleBtn == 2 ? '#2d6c6e' : '' }}
         >
           未完成
         </button>

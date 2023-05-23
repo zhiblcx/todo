@@ -1,26 +1,35 @@
 import { useState, useEffect } from 'react'
-
 import { useSelector, useDispatch } from 'react-redux'
-import styles from './CountTime.module.css'
+
 import { recordFirstTimer, recordLastTimer } from './countTimeSlice'
+import { formatTime } from '../../../utils/formatTime.js'
+import styles from './CountTime.module.css'
 
 export default function CountTime() {
   const [timer, setTimer] = useState('00:00:00')
-  const stateBtn = useSelector((state) =>
-    state.timer.totalTime.length ? state.timer.totalTime[state.timer.totalTime.length - 1].tag || 0 : 0
-  )
 
-  const weekTime = useSelector((state) =>
-    state.timer.totalTime.length
-      ? state.timer.totalTime[state.timer.totalTime.length - 1].weekTime || '00:00:00'
-      : '00:00:00'
-  )
+  const {
+    stateBtn,
+    time: weekTime,
+    firstTime
+  } = useSelector((state) => {
+    const totalTime = state.timer.weekTime
+    if (totalTime.length === 0) {
+      return {
+        stateBtn: 0,
+        time: '00:00:00',
+        firstTime: '00:00:00'
+      }
+    } else {
+      return {
+        stateBtn: totalTime[0].tag || 0,
+        time: totalTime[0].time || '00:00:00',
+        firstTime: totalTime[0].firstTime || '00:00:00'
+      }
+    }
+  })
+
   const dispatch = useDispatch()
-  const firstTime = useSelector((state) =>
-    state.timer.totalTime.length
-      ? state.timer.totalTime[state.timer.totalTime.length - 1].firstTime || '00:00:00'
-      : '00:00:00'
-  )
 
   useEffect(() => {
     let countTimer
@@ -28,14 +37,7 @@ export default function CountTime() {
       countTimer = setInterval(() => {
         const oldFirstTime = firstTime
         const totalSecond = parseInt((new Date().getTime() - new Date(oldFirstTime).getTime()) / 1000)
-        const hour =
-          parseInt(totalSecond / 60 / 60) < 10 ? '0' + parseInt(totalSecond / 60 / 60) : parseInt(totalSecond / 60 / 60)
-        const minute =
-          parseInt((totalSecond / 60) % 60) < 10
-            ? '0' + parseInt((totalSecond / 60) % 60)
-            : parseInt((totalSecond / 60) % 60)
-        const second = parseInt(totalSecond % 60) < 10 ? '0' + parseInt(totalSecond % 60) : parseInt(totalSecond % 60)
-        setTimer(hour + ':' + minute + ':' + second)
+        setTimer(formatTime(totalSecond))
       }, 1000)
     }
 
@@ -55,41 +57,21 @@ export default function CountTime() {
 
   return (
     <>
-      <div style={{ display: stateBtn == 0 ? 'block' : 'none' }}>
-        <div style={{ color: '#2aa69a', fontSize: '40px', marginTop: '30px' }}>本周学习时间</div>
+      <div style={{ display: stateBtn === 0 ? 'block' : 'none' }}>
+        <div className={styles.text}>本周学习时间</div>
         <div className={styles.time}>{weekTime}</div>
         <div
-          style={{
-            backgroundColor: '#2aa69a',
-            outline: 'none',
-            border: '2px solid #2d6c6e',
-            width: '200px',
-            height: '50px',
-            lineHeight: '50px',
-            margin: '50px auto',
-            fontSize: '25px',
-            cursor: 'pointer'
-          }}
+          className={styles.countTimeBtn}
           onClick={handlerStartStudy}
         >
           开始学习
         </div>
       </div>
       <div style={{ display: stateBtn == 1 ? 'block' : 'none' }}>
-        <div style={{ color: '#2aa69a', fontSize: '40px', marginTop: '30px' }}>正在学习中...</div>
+        <div className={styles.text}>正在学习中...</div>
         <div className={styles.time}>{timer}</div>
         <div
-          style={{
-            backgroundColor: '#2aa69a',
-            outline: 'none',
-            border: '2px solid #2d6c6e',
-            width: '200px',
-            height: '50px',
-            lineHeight: '50px',
-            margin: '50px auto',
-            fontSize: '25px',
-            cursor: 'pointer'
-          }}
+          className={styles.countTimeBtn}
           onClick={handlerEndStudy}
         >
           结束学习

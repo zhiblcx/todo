@@ -59,6 +59,7 @@ function Increase() {
           focusInput={focusInput}
           blurInput={blurInput}
           customStyle={customStyle}
+          IncreaseTask={IncreaseTask}
         />
         <button
           className="determine"

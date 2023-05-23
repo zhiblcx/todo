@@ -1,13 +1,7 @@
 {
-  "routes": [
-    {
-      "src": "/(tasklist|taskclock|taskrecord)/?",
-      "dest": "/index.html"
-    }
-  ],
   "rewrites": [
     {
-      "source": "/:path*",
+      "source": "/(tasklist|taskclock|taskrecord)/",
       "destination": "/index.html"
     }
   ]

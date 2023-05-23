@@ -1,0 +1,50 @@
+table tr td,
+table tr th {
+  height: 28px;
+  border: 1px solid #2d6c6e;
+}
+table {
+  border-collapse: collapse;
+}
+
+.tableStyle {
+  margin: 10px auto;
+  color: white;
+  width: 450px;
+  opacity: 0;
+}
+
+.stableEnter {
+  animation: tableEnterAnimation 0.8s linear forwards;
+}
+
+@keyframes tableEnterAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.taskBtnState {
+  height: 30px;
+  width: 50px;
+  margin-right: 40px;
+  font-size: 8px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: #33c7cc;
+}
+
+.taskBtnState:hover {
+  animation: taskBtnStateHover 0.2s linear forwards;
+}
+
+@keyframes taskBtnStateHover {
+  100% {
+    background-color: rgb(8, 138, 161);
+  }
+}

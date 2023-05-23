@@ -1,6 +1,6 @@
 .aside {
   position: fixed;
-  z-index: 800;
+  z-index: 10;
   background-color: #080c0d;
   display: flex;
   flex-direction: column;
@@ -30,4 +30,30 @@
   display: flex;
   justify-items: center;
   align-items: center;
+}
+
+@keyframes asideExitAnimation {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -150px;
+  }
+}
+
+@keyframes asideEnterAnimation {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.asideEnter {
+  animation: asideEnterAnimation 0.4s forwards;
+}
+
+.asideExit {
+  animation: asideExitAnimation 0.4s forwards;
 }

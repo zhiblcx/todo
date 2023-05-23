@@ -17,16 +17,19 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, actions) => {
-      state.value = [{
-        id: nanoid(),
-        taskName: actions.payload.taskName,
-        startTime: actions.payload.startTime,
-        checked: false
-      }, ...state.value]
+      state.value = [
+        {
+          id: nanoid(),
+          taskName: actions.payload.taskName,
+          startTime: actions.payload.startTime,
+          checked: false
+        },
+        ...state.value
+      ]
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     editTask: (state, actions) => {
-      const { payload } = actions;
+      const { payload } = actions
       const index = state.value.findIndex(({ id }) => id === payload.id)
       state.value[index] = {
         ...state.value[index],
@@ -36,8 +39,7 @@ export const todoSlice = createSlice({
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     deleteTask: (state, actions) => {
-      const newTasks = state.value.filter((task) => task.id != actions.payload)
-      state.value = newTasks
+      state.value = state.value.filter((task) => task.id !== actions.payload)
       localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     maskVisible: (state) => {
@@ -45,27 +47,27 @@ export const todoSlice = createSlice({
     },
     completeTask: (state, actions) => {
       const { payload } = actions
-      const index = state.value.findIndex(state => state.id === payload.id)
+      const index = state.value.findIndex((state) => state.id === payload.id)
       state.value[index] = {
         ...state.value[index],
         checked: payload.checked,
         endTime: payload.endTime
       }
-      localStorage.setItem("tasks", JSON.stringify(state.value));
+      localStorage.setItem('tasks', JSON.stringify(state.value))
     },
     sortTask: (state) => {
       state.value.sort((taskA, taskB) => {
         if (taskA.checked && !taskB.checked) {
-          return 1;
+          return 1
         }
         if (!taskA.checked && taskB.checked) {
-          return -1;
+          return -1
         }
-        return 0;
-      });
-      localStorage.setItem("tasks", JSON.stringify(state.value));
+        return 0
+      })
+      localStorage.setItem('tasks', JSON.stringify(state.value))
     }
-  },
+  }
 })
 export const { addTask, deleteTask, editTask, maskVisible, completeTask, sortTask } = todoSlice.actions
 
