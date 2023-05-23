@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/(tasklist|taskclock|taskrecord)/",
-      "destination": "/index.html"
-    }
-  ]
-}
