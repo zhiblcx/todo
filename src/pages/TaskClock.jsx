@@ -1,4 +1,4 @@
-import CountTime from '../components/features/countTime /index.jsx'
+import CountTime from '../components/features/countTime'
 export default function TaskClock() {
   return (
     <>
