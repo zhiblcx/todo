@@ -15,7 +15,7 @@ table {
 }
 
 .stableEnter {
-  animation: tableEnterAnimation 0.8s linear forwards;
+  animation: tableEnterAnimation 0.5s linear forwards;
 }
 
 @keyframes tableEnterAnimation {
@@ -37,6 +37,10 @@ table {
   outline: none;
   border-radius: 5px;
   background-color: #33c7cc;
+}
+
+.chart {
+  opacity: 0;
 }
 
 .taskBtnState:hover {

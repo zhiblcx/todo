@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import './index.css'
 
 export default function RecordTable() {
-  const [styleBtn, setStyleBtn] = useState(0)
   const [tasks] = useState(useSelector((state) => state.tasks.value))
-  const table = useRef(null)
 
   const dayTimer = useSelector((state) =>
     state.timer.dayTime.map((content) => {
@@ -13,6 +12,45 @@ export default function RecordTable() {
       return { ...content, count }
     })
   )
+
+  const [timer, setTimer] = useState(dayTimer)
+
+  const [data, setData] = useState(
+    timer
+      .slice(0, 7)
+      .map((time) => ({
+        studyTime: (
+          parseInt(
+            parseInt(time.time.split(':')[0] * 60 * 60) +
+              parseInt(time.time.split(':')[1] * 60) +
+              parseInt(time.time.split(':')[2])
+          ) /
+          60 /
+          60
+        ).toFixed(2),
+        completeCount: time.count,
+        name:
+          time.date.length > 15
+            ? time.date.split('-')[0].split('/')[1] +
+              '/' +
+              time.date.split('-')[0].split('/')[2] +
+              '-' +
+              time.date.split('-')[1].split('/')[1] +
+              '/' +
+              time.date.split('-')[1].split('/')[2]
+            : time.date
+      }))
+      .reverse()
+  )
+
+  const { maxStudyTime: maxStudy, maxCompleteCount: maxComplete } = getMaxValue(data)
+
+  const [styleBtn, setStyleBtn] = useState(0)
+  const [maxStudyTime, setMaxStudyTime] = useState(Math.ceil(maxStudy))
+  const [maxCompleteCount, setMaxCompleteCount] = useState(maxComplete == 0 ? 1 : maxComplete)
+
+  const table = useRef(null)
+  const chart = useRef(null)
 
   const weekTimer = useSelector((state) =>
     state.timer.weekTime.map((content) => {
@@ -28,13 +66,45 @@ export default function RecordTable() {
       return { ...content, count }
     })
   )
-  const [timer, setTimer] = useState(dayTimer)
 
   useEffect(() => {
     table.current.className = 'tableStyle'
+    chart.current.className = 'chart'
+
     window.setTimeout(() => {
       table.current.className = 'tableStyle stableEnter'
+      chart.current.className = 'chart stableEnter'
     }, 10)
+
+    const daqq = timer
+      .slice(0, 7)
+      .map((time) => ({
+        studyTime: (
+          parseInt(
+            parseInt(time.time.split(':')[0] * 60 * 60) +
+              parseInt(time.time.split(':')[1] * 60) +
+              parseInt(time.time.split(':')[2])
+          ) /
+          60 /
+          60
+        ).toFixed(2),
+        completeCount: time.count,
+        name:
+          time.date.length > 15
+            ? time.date.split('-')[0].split('/')[1] +
+              '/' +
+              time.date.split('-')[0].split('/')[2] +
+              '-' +
+              time.date.split('-')[1].split('/')[1] +
+              '/' +
+              time.date.split('-')[1].split('/')[2]
+            : time.date
+      }))
+      .reverse()
+    setData(daqq)
+    const { maxStudyTime: maxStudy, maxCompleteCount: maxComplete } = getMaxValue(daqq)
+    setMaxStudyTime(Math.ceil(maxStudy))
+    setMaxCompleteCount(maxComplete == 0 ? 1 : maxComplete)
   }, [timer])
 
   function handlerDayBtn() {
@@ -50,6 +120,12 @@ export default function RecordTable() {
   function handlerMonthBtn() {
     setStyleBtn(2)
     setTimer(monthTimer)
+  }
+
+  function getMaxValue(data) {
+    const maxStudyTime = Math.max(...data.map((item) => item.studyTime))
+    const maxCompleteCount = Math.max(...data.map((item) => item.completeCount))
+    return { maxStudyTime, maxCompleteCount }
   }
 
   return (
@@ -89,7 +165,7 @@ export default function RecordTable() {
           </tr>
         </thead>
         <tbody>
-          {timer.map((content, index) => (
+          {timer.slice(0, 7).map((content, index) => (
             <tr key={index}>
               <td>{content.date}</td>
               <td>{content.time}</td>
@@ -110,6 +186,55 @@ export default function RecordTable() {
           )}
         </tbody>
       </table>
+      <div ref={chart}>
+        <LineChart
+          style={{ margin: '20px auto' }}
+          width={800}
+          height={300}
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis
+            dataKey="studyTime"
+            yAxisId="left"
+            scale="auto"
+            domain={[0, maxStudyTime]}
+          />
+          <YAxis
+            dataKey="completeCount"
+            yAxisId="right"
+            orientation="right"
+            allowDecimals={false}
+            domain={[0, maxCompleteCount]}
+          />
+          <Tooltip
+            formatter={(value, key) => {
+              if (key == '学习时长') {
+                return value + '小时'
+              } else {
+                return value + '个'
+              }
+            }}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            yAxisId="left"
+            dataKey="studyTime"
+            stroke="#8884d8"
+            name="学习时长"
+          />
+          <Line
+            type="monotone"
+            yAxisId="right"
+            dataKey="completeCount"
+            stroke="#82ca9d"
+            name="任务完成个数"
+          />
+        </LineChart>
+      </div>
     </div>
   )
 }
