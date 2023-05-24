@@ -114,6 +114,9 @@ export default function RecordTable() {
 
   function handlerWeekBtn() {
     setStyleBtn(1)
+    if (weekTimer.some((timer) => timer.date.split('-')[0] == 'undefined')) {
+      return
+    }
     setTimer(weekTimer)
   }
 
@@ -153,9 +156,16 @@ export default function RecordTable() {
           月报
         </button>
       </div>
+
+      <div
+        style={{ display: data.length <= 0 ? 'block' : 'none', color: 'white', fontSize: '30px', marginTop: '80px' }}
+      >
+        还没有学习记录，要加油哦！！！
+      </div>
       <table
         className="tableStyle"
         ref={table}
+        style={{ display: data.length <= 0 ? 'none' : '' }}
       >
         <thead>
           <tr>
@@ -186,7 +196,10 @@ export default function RecordTable() {
           )}
         </tbody>
       </table>
-      <div ref={chart}>
+      <div
+        ref={chart}
+        style={{ display: data.length <= 0 ? 'none' : 'block' }}
+      >
         <LineChart
           style={{ margin: '20px auto' }}
           width={800}
