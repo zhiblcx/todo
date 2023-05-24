@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import todoSlice from './todo/todoSlice.js'
-import countTimer from './CountTime/countTimeSlice.js'
+import todoSlice from './todo/todoSlice'
+import countTimer from './countTime/countTimeSlice.js'
 
 export const store = configureStore({
   reducer: {
