@@ -54,7 +54,14 @@ export default function RecordTable() {
 
   const weekTimer = useSelector((state) =>
     state.timer.weekTime.map((content) => {
-      const count = tasks.filter((task) => content.date <= task.endTime && content.date >= task.startTime).length
+      const count = tasks.filter((task) => {
+        if (task.endTime) {
+          return (
+            new Date(task.endTime).getTime() >= new Date(content.weekStartTime).getTime() &&
+            new Date(task.endTime).getTime() <= new Date(content.weekEndTime).getTime()
+          )
+        }
+      }).length
       const date = content.weekStartTime + '-' + content.weekEndTime
       return { ...content, count, date }
     })
@@ -62,7 +69,11 @@ export default function RecordTable() {
 
   const monthTimer = useSelector((state) =>
     state.timer.monthTime.map((content) => {
-      const count = tasks.filter((task) => content.date == task.endTime).length
+      const count = tasks.filter((task) => {
+        if (task.endTime) {
+          return content.date == task.endTime.split('/')[0] + '/' + task.endTime.split('/')[1]
+        }
+      }).length
       return { ...content, count }
     })
   )

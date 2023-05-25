@@ -77,23 +77,23 @@ export default function Todo() {
         <button
           className="taskBtnState"
           onClick={handlerTotal}
-          style={{ backgroundColor: styleBtn == 0 ? '#2d6c6e' : '' }}
+          style={{ backgroundColor: styleBtn == 0 ? '#2d6c6e' : '', width: '64px' }}
         >
-          全部
+          全部({taskTotal.length})
         </button>
         <button
           className="taskBtnState"
           onClick={handlerDone}
-          style={{ backgroundColor: styleBtn == 1 ? '#2d6c6e' : '' }}
+          style={{ backgroundColor: styleBtn == 1 ? '#2d6c6e' : '', width: '70px' }}
         >
-          已完成
+          已完成({taskTotal.reduce((sum, task) => (task.checked == true ? (sum += 1) : sum), 0)})
         </button>
         <button
           className="taskBtnState"
           onClick={handlerUndone}
-          style={{ backgroundColor: styleBtn == 2 ? '#2d6c6e' : '' }}
+          style={{ backgroundColor: styleBtn == 2 ? '#2d6c6e' : '', width: '70px' }}
         >
-          未完成
+          未完成({taskTotal.reduce((sum, task) => (task.checked != true ? (sum += 1) : sum), 0)})
         </button>
       </div>
       {tasks.map((task) => (
