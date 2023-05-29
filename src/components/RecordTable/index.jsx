@@ -114,8 +114,10 @@ export default function RecordTable() {
       .reverse()
     setData(daqq)
     const { maxStudyTime: maxStudy, maxCompleteCount: maxComplete } = getMaxValue(daqq)
+    console.log(maxComplete)
     setMaxStudyTime(Math.ceil(maxStudy))
     setMaxCompleteCount(maxComplete == 0 ? 1 : maxComplete)
+    console.log(maxCompleteCount)
   }, [timer])
 
   function handlerDayBtn() {

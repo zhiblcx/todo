@@ -7,7 +7,8 @@ import { countTotalSecond } from '../../../utils/countTotalSecond'
 const initialState = {
   dayTime: [],
   weekTime: [],
-  monthTime: []
+  monthTime: [],
+  pausedTimer: null
 }
 
 if (localStorage.getItem('week-timer')) {
@@ -29,6 +30,12 @@ if (localStorage.getItem('daily-timer') && localStorage.getItem('month-timer')) 
   localStorage.setItem('month-timer', JSON.stringify([]))
 }
 
+if (localStorage.getItem('pasued-timer')) {
+  initialState.pausedTimer = JSON.parse(localStorage.getItem('pasued-timer'))
+} else {
+  localStorage.setItem('pasued-timer', JSON.stringify(null))
+}
+
 export const countTimer = createSlice({
   name: 'timer',
   initialState,
@@ -38,6 +45,7 @@ export const countTimer = createSlice({
       const month = getFullTime().slice(0, 6)
       const todayRecord = state.dayTime.find((record) => record.date === today)
       const monthRecord = state.monthTime.find((record) => record.date === month)
+
       if (!todayRecord) {
         state.dayTime = [{ date: today, time: '00:00:00' }, ...state.dayTime]
       }
@@ -69,6 +77,23 @@ export const countTimer = createSlice({
       localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
     },
 
+    recordPausedTimer: (state) => {
+      state.pausedTimer = new Date().getTime()
+      localStorage.setItem('pasued-timer', JSON.stringify(state.pausedTimer))
+      localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
+    },
+
+    recordResumeTimer: (state) => {
+      if (state.pausedTimer) {
+        const current = new Date().getTime()
+        const pausedDuration = current - state.pausedTimer
+        state.weekTime[0].firstTime += pausedDuration
+        state.pausedTimer = null
+        localStorage.setItem('pasued-timer', JSON.stringify(state.pausedTimer))
+        localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
+      }
+    },
+
     recordLastTimer: (state) => {
       const oldWeekTime = state.weekTime[0].time
       const oldFirstTime = state.weekTime[0].firstTime
@@ -87,13 +112,28 @@ export const countTimer = createSlice({
         firstTime: '00:00:00',
         tag: 0
       }
+
+      state.pausedTimer = null
+      localStorage.setItem('pasued-timer', JSON.stringify(state.pausedTimer))
       localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
       localStorage.setItem('daily-timer', JSON.stringify(state.dayTime))
       localStorage.setItem('month-timer', JSON.stringify(state.monthTime))
+    },
+
+    recodeGiveup: (state) => {
+      state.weekTime[0] = {
+        ...state.weekTime[0],
+        firstTime: '00:00:00',
+        tag: 0
+      }
+
+      localStorage.setItem('pasued-timer', JSON.stringify(state.pausedTimer))
+      localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
     }
   }
 })
 
-export const { recordFirstTimer, recordLastTimer } = countTimer.actions
+export const { recordFirstTimer, recordPausedTimer, recordResumeTimer, recordLastTimer, recodeGiveup } =
+  countTimer.actions
 
 export default countTimer.reducer

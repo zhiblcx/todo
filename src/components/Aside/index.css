@@ -1,35 +1,17 @@
 .aside {
   position: fixed;
-  z-index: 10;
+  width: 150px;
+  height: 370px;
+  color: white;
   background-color: #080c0d;
+  border-radius: 0 20px 20px 0;
+  left: 0px;
+  top: 60px;
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  border-radius: 0 20px 20px 0;
-  left: 0px;
-  top: 60px;
-  width: 150px;
-  height: 400px;
-  color: white;
-}
-
-.asideBtn {
-  margin-top: 20px;
-  border-radius: 10px;
-  width: 90%;
-  height: 30px;
-  line-height: 30px;
-  background-color: #2aa69a;
-  text-align: left;
-  padding-left: 20px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: #ffffff;
-  font-weight: 700;
-  display: flex;
-  justify-items: center;
-  align-items: center;
+  z-index: 10;
 }
 
 @keyframes asideExitAnimation {
@@ -56,4 +38,21 @@
 
 .asideExit {
   animation: asideExitAnimation 0.4s forwards;
+}
+
+.asideControlVisible {
+  position: fixed;
+  width: 25px;
+  height: 30px;
+  background-color: #2aa69a;
+  border-radius: 0 40% 40% 0;
+  left: 0px;
+  top: 30px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  padding-top: 2px;
+  padding-left: 4px;
+  cursor: pointer;
+  z-index: 11;
 }

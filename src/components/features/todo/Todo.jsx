@@ -113,7 +113,10 @@ export default function Todo() {
           <label
             htmlFor={task.id}
             className="textTask"
-            style={{ textDecoration: task.checked ? 'line-through' : 'none' }}
+            style={{
+              textDecoration: task.checked ? 'line-through' : 'none',
+              textDecorationColor: '#c55138'
+            }}
           >
             {task.taskName}
           </label>

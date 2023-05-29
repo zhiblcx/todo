@@ -12,6 +12,7 @@
   cursor: pointer;
   border: 2px solid #2d6c6e;
   margin: 50px auto;
+  margin-bottom: 10px;
   background-color: #2aa69a;
   outline: none;
 }
