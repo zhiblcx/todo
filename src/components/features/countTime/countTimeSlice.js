@@ -11,30 +11,31 @@ const initialState = {
   pausedTimer: null
 }
 
-if (localStorage.getItem('week-timer')) {
-  initialState.weekTime = JSON.parse(localStorage.getItem('week-timer'))
-  const difference = new Date(initialState.weekTime[0].weekEndTime + ' 23:59:59.999').getTime() - new Date().getTime()
-  if (difference < 0) {
-    initialState.weekTime = [{ time: '00:00:00', tag: 0 }, ...initialState.weekTime]
+function getLocalStorageItem(key, defaultValue) {
+  const value = localStorage.getItem(key)
+  if (value) {
+    return JSON.parse(value)
+  } else {
+    localStorage.setItem(key, JSON.stringify(defaultValue))
+    return defaultValue
   }
-} else {
-  localStorage.setItem('week-timer', JSON.stringify([{ tag: 0, time: '00:00:00' }]))
-  initialState.weekTime = JSON.parse(localStorage.getItem('week-timer'))
 }
 
-if (localStorage.getItem('daily-timer') && localStorage.getItem('month-timer')) {
-  initialState.dayTime = JSON.parse(localStorage.getItem('daily-timer'))
-  initialState.monthTime = JSON.parse(localStorage.getItem('month-timer'))
-} else {
-  localStorage.setItem('daily-timer', JSON.stringify([]))
-  localStorage.setItem('month-timer', JSON.stringify([]))
+function initWeekTime() {
+  const weekTime = getLocalStorageItem('week-timer', [{ tag: 0, time: '00:00:00' }])
+  const difference = new Date(weekTime[0].weekEndTime + ' 23:59:59.999').getTime() - new Date().getTime()
+
+  if (difference < 0) {
+    return [{ time: '00:00:00', tag: 0 }, ...weekTime]
+  }
+
+  return weekTime
 }
 
-if (localStorage.getItem('pasued-timer')) {
-  initialState.pausedTimer = JSON.parse(localStorage.getItem('pasued-timer'))
-} else {
-  localStorage.setItem('pasued-timer', JSON.stringify(null))
-}
+initialState.weekTime = initWeekTime()
+initialState.dayTime = getLocalStorageItem('daily-timer', [])
+initialState.monthTime = getLocalStorageItem('month-timer', [])
+initialState.pausedTimer = getLocalStorageItem('pasued-timer', null)
 
 export const countTimer = createSlice({
   name: 'timer',
@@ -95,6 +96,14 @@ export const countTimer = createSlice({
     },
 
     recordLastTimer: (state) => {
+      if (state.pausedTimer) {
+        const current = new Date().getTime()
+        const pausedDuration = current - state.pausedTimer
+        state.weekTime[0].firstTime += pausedDuration
+        state.pausedTimer = null
+        localStorage.setItem('pasued-timer', JSON.stringify(state.pausedTimer))
+        localStorage.setItem('week-timer', JSON.stringify(state.weekTime))
+      }
       const oldWeekTime = state.weekTime[0].time
       const oldFirstTime = state.weekTime[0].firstTime
       const totalSecond = countTotalSecond(oldWeekTime, oldFirstTime)
