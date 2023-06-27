@@ -1,0 +1,40 @@
+.error {
+  margin-top: 25px;
+  height: 30px;
+  width: 249px;
+  font-size: 10px;
+  line-height: 30px;
+  padding: 2px;
+  color: #67c23a;
+  background: #f0f9eb;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+@keyframes messageEnterAnimation {
+  0% {
+    margin-top: -40px;
+  }
+  100% {
+    margin-top: 25px;
+  }
+}
+
+@keyframes messageExitAnimation {
+  0% {
+    margin-top: 25px;
+  }
+  100% {
+    margin-top: -40px;
+  }
+}
+
+.messageEnter {
+  animation: messageEnterAnimation 0.2s linear forwards;
+}
+
+.messageExit {
+  animation: messageExitAnimation 0.2s linear forwards;
+}

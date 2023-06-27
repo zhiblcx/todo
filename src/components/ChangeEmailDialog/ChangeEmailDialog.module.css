@@ -1,0 +1,25 @@
+@keyframes emailEnterAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes emailExitAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.emailEnter {
+  animation: emailEnterAnimation 0.2s linear forwards;
+}
+
+.emailExit {
+  animation: emailExitAnimation 0.2s linear forwards;
+}

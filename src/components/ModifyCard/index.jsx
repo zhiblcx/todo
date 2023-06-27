@@ -1,42 +1,22 @@
-import { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { editTask } from '../features/todo/todoSlice'
+import { useRef } from 'react'
+
 import Mask from '../Mask'
 import TaskBox from '../TaskBox'
+import useModifyCardEffect from '@/hook/useModifyCardEffect.js'
+import useEditNameEffect from '@/hook/useEditNameEffect'
 import './index.css'
 
 export default function ModifyCard(props) {
-  const inputFocus = useSelector((state) => state.tasks.visible)
-  const tasks = useSelector((state) => state.tasks.value)
-  const dispatch = useDispatch()
-
   const label = useRef(null)
   const taskName = useRef(null)
-  const root = useRef(document.documentElement)
 
-  const elem = root.current
-  const styles = getComputedStyle(elem)
-  const varValue = styles
-    .getPropertyValue('--editTask--content')
-    .slice(1, styles.getPropertyValue('--editTask--content').length - 1)
-  const customStyle = {
-    '--after-content': `"${varValue}"`
+  if (props.selectTaskId) {
+    useModifyCardEffect({ ...props, taskName })
   }
 
-  useEffect(() => {
-    taskName.current.setAttribute('placeholder', varValue)
-    taskName.current.focus()
-    if (inputFocus == true) {
-      taskName.current.focus()
-      const currentTask = tasks.find((task) => task.id == props.selectTaskId)
-      taskName.current.value = currentTask.taskName
-    } else {
-      if (taskName.current.value.trim() == '') {
-        return
-      }
-      dispatch(editTask({ id: props.selectTaskId, taskName: taskName.current.value }))
-    }
-  }, [inputFocus])
+  if (props.userName) {
+    useEditNameEffect({ ...props, userName: taskName })
+  }
 
   function focusInput(event) {
     label.current.className = 'label'
@@ -54,10 +34,13 @@ export default function ModifyCard(props) {
     }
   }
   return (
-    <Mask>
+    <Mask
+      onClose={() => props.onClose()}
+      visible={props.visible}
+    >
       <div className="modifyBox">
         <TaskBox
-          customStyle={customStyle}
+          customStyle={props.customStyle}
           taskName={taskName}
           label={label}
           focusInput={focusInput}

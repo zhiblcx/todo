@@ -1,27 +1,24 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { maskVisible } from '../features/todo/todoSlice.js'
-
 import './index.css'
+
 export default function Mask(props) {
-  const visible = useSelector((state) => state.tasks.visible)
+  const { visible, onClose } = props
 
-  const dispatch = useDispatch()
-
-  function handlerVisible() {
-    dispatch(maskVisible())
+  function handleMaskClick() {
+    onClose && onClose()
   }
 
-  function handlerPrevent(event) {
+  function handlePreventClick(event) {
     event.stopPropagation()
   }
+
   return (
     <div
       className={visible ? 'visible mask' : 'mask'}
-      onClick={handlerVisible}
+      onClick={handleMaskClick}
     >
       <span
         style={{ zIndex: 999, height: '0px' }}
-        onClick={(event) => handlerPrevent(event)}
+        onClick={handlePreventClick}
       >
         {props.children}
       </span>

@@ -11,10 +11,10 @@
 
 .deleteBubbleBox {
   display: 'flex';
+  position: relative;
   flex-direction: 'column';
   justify-content: 'space-around';
   align-content: 'center';
-  position: relative;
   color: white;
   background-color: #1f1f1f;
   opacity: 0.8;

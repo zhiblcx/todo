@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getFirstDayOfWeek, getLastDayOfWeek } from '../../../utils/getFullTime'
-import { formatTime } from '../../../utils/formatTime'
-import { getFullTime } from '../../../utils/getFullTime'
-import { countTotalSecond } from '../../../utils/countTotalSecond'
+import { getFirstDayOfWeek, getLastDayOfWeek } from '@/utils/getFullTime'
+import { formatTime } from '@/utils/formatTime'
+import { getFullTime } from '@/utils/getFullTime'
+import { countTotalSecond } from '@/utils/countTotalSecond'
 
 const initialState = {
   dayTime: [],

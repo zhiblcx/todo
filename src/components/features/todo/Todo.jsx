@@ -18,6 +18,11 @@ export default function Todo() {
   const [deleteTaskId, setDeleteTaskId] = useState(null)
   const [deleteVisible, setDeleteVisible] = useState(false)
   const [styleBtn, setStyleBtn] = useState(0)
+  const [visible, setVisible] = useState(false)
+
+  const customStyle = {
+    '--after-content': "'update'"
+  }
 
   const dispatch = useDispatch()
 
@@ -31,6 +36,7 @@ export default function Todo() {
   }
 
   function handlerEditBtn(taskId) {
+    setVisible(true)
     setSelectTaskId(taskId)
     dispatch(maskVisible())
   }
@@ -146,7 +152,16 @@ export default function Todo() {
             {task.startTime}
             <span className={task.endTime ? 'endTimeEnter' : ''}>{task.endTime && ' - ' + task.endTime}</span>
           </span>
-          {selectTaskId == task.id && <ModifyCard selectTaskId={task.id} />}
+          {selectTaskId == task.id && (
+            <ModifyCard
+              selectTaskId={task.id}
+              visible={visible}
+              customStyle={customStyle}
+              onClose={() => {
+                setVisible(false), dispatch(maskVisible())
+              }}
+            />
+          )}
           {deleteTaskId == task.id && (
             <DeleteBubbleBox
               deleteTaskId={task.id}
