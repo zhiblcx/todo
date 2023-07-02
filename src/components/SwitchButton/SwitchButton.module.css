@@ -1,0 +1,144 @@
+.target {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: #c4c4c4;
+  cursor: pointer;
+}
+
+/* 使用伪元素画一个小圆点 */
+.target::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e9e9e9;
+  border-radius: 50%;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+}
+
+.target.on::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0px;
+  height: 100%;
+  border-radius: 10px;
+  animation: brushOn 0.3s linear forwards;
+}
+
+@keyframes brushOn {
+  from {
+    width: 0px;
+    background: #c4c4c4;
+  }
+  to {
+    width: 60px;
+    background: #2aa69a;
+  }
+}
+
+@keyframes brushOff {
+  from {
+    width: 60px;
+    background: #2aa69a;
+  }
+  to {
+    width: 0px;
+    background: #c4c4c4;
+  }
+}
+
+.target.on::after {
+  left: 38px;
+}
+
+.target.off::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0px;
+  height: 100%;
+  border-radius: 10px;
+  animation: brushOff 0.3s linear forwards;
+}
+
+.target.off::after {
+  left: -2px;
+}
+
+.switchLeft {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.switchRight {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+@keyframes switchBtnLeftAnimation {
+  0% {
+    left: 38px;
+  }
+
+  100% {
+    left: -2px;
+  }
+}
+
+@keyframes switchBtnRightAnimation {
+  0% {
+    left: -2px;
+  }
+
+  100% {
+    left: 38px;
+  }
+}
+
+@keyframes switchTextLeftAnimation {
+  0% {
+    left: 60%;
+  }
+
+  100% {
+    left: 40%;
+  }
+}
+
+@keyframes switchTextRightAnimation {
+  0% {
+    left: 40%;
+  }
+
+  100% {
+    left: 60%;
+  }
+}
+
+.switchBtnLeft::after {
+  animation: switchBtnLeftAnimation 0.3s forwards;
+}
+
+.switchBtnRight::after {
+  animation: switchBtnRightAnimation 0.3s forwards;
+}
+
+.switchTextLeft {
+  animation: switchTextLeftAnimation 0.3s forwards;
+}
+
+.switchTextRight {
+  animation: switchTextRightAnimation 0.3s forwards;
+}

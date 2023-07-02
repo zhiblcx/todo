@@ -177,6 +177,7 @@ export default function RecordTable() {
       </div>
       <table
         className="tableStyle"
+        id="table1"
         ref={table}
         style={{ display: data.length <= 0 ? 'none' : '' }}
       >

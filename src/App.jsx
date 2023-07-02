@@ -9,6 +9,7 @@ import routers from './routes'
 
 export default function App() {
   const routerTable = useRoutes(routers)
+
   return (
     <Provider store={store}>
       <Aside />

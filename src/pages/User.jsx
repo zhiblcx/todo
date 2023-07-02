@@ -25,6 +25,7 @@ export default function User() {
   const [error, setError] = useState({})
   const inputMessage = useRef(null)
   const dispatch = useDispatch()
+
   const customStyle = {
     '--after-content': "'名称在1-10字符'",
     color: '#22857b'
@@ -116,7 +117,7 @@ export default function User() {
       >
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <img
-            src="../../public/avatar1.jpg"
+            src="../../public/avatar2.jpg"
             alt=""
             width="60px"
             style={{ borderRadius: '50%', cursor: 'pointer' }}

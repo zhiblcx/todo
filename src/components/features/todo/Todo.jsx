@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import ModifyCard from '../../ModifyCard'
 import EditSvg from '../../Svg/EditSvg'
 import DeleteSvg from '../../Svg/DeleteSvg'
+import Alarmed from '@/components/Svg/Alarmed'
+import Alarm from '@/components/Svg/Alarm'
+import MarkToped from '@/components/Svg/MarkToped.jsx'
+import MarkTop from '@/components/Svg/MarkTop'
 
 import DeleteBubbleBox from '../../DeleteBubbleBox'
-import { maskVisible, completeTask, sortTask } from './todoSlice'
-import { getFullTime } from '../../../utils/getFullTime'
+import { maskVisible, completeTask, sortTask, markTask, alarmTask } from './todoSlice'
+import { getFullTime } from '@/utils/getFullTime'
 import './todo.css'
 
 export default function Todo() {
@@ -19,6 +24,8 @@ export default function Todo() {
   const [deleteVisible, setDeleteVisible] = useState(false)
   const [styleBtn, setStyleBtn] = useState(0)
   const [visible, setVisible] = useState(false)
+
+  const navigate = useNavigate()
 
   const customStyle = {
     '--after-content': "'update'"
@@ -120,12 +127,60 @@ export default function Todo() {
             htmlFor={task.id}
             className="textTask"
             style={{
-              textDecoration: task.checked ? 'line-through' : 'none',
-              textDecorationColor: '#c55138'
+              textDecorationLine: task.checked ? 'line-through' : 'none',
+              textDecorationColor: '#c55138',
+              textDecorationStyle: 'solid'
             }}
           >
             {task.taskName}
           </label>
+          {task.mark ? (
+            <div
+              style={{ position: 'absolute', right: '58px', top: '3px', cursor: 'pointer' }}
+              onClick={() => {
+                dispatch(markTask({ id: task.id, mark: 0 }))
+                window.setTimeout(() => {
+                  dispatch(sortTask())
+                }, 500)
+              }}
+            >
+              <MarkToped />
+            </div>
+          ) : (
+            <div
+              style={{ position: 'absolute', right: '58px', top: '3px', cursor: 'pointer' }}
+              onClick={() => {
+                dispatch(markTask({ id: task.id, mark: 1 }))
+                window.setTimeout(() => {
+                  dispatch(sortTask())
+                }, 500)
+              }}
+            >
+              <MarkTop />
+            </div>
+          )}
+
+          {task.alarm ? (
+            <div
+              style={{ position: 'absolute', right: '15px', top: '3px', cursor: 'pointer' }}
+              onClick={() => {
+                dispatch(alarmTask({ alarm: 0, id: task.id }))
+              }}
+            >
+              <Alarmed />
+            </div>
+          ) : (
+            <div
+              style={{ position: 'absolute', right: '15px', top: '3px', cursor: 'pointer' }}
+              onClick={() => {
+                dispatch(alarmTask({ alarm: 1, id: task.id }))
+                navigate('/taskremain')
+              }}
+            >
+              <Alarm />
+            </div>
+          )}
+
           <button
             className="edit"
             onClick={() => handlerEditBtn(task.id)}
@@ -142,7 +197,7 @@ export default function Todo() {
             style={{
               position: 'absolute',
               left: '15px',
-              bottom: '5px',
+              bottom: '10px',
               fontSize: '5px',
               width: '140px',
               textAlign: 'left',

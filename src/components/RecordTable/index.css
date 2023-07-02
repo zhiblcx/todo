@@ -1,5 +1,5 @@
-table tr td,
-table tr th {
+#table1 tr td,
+#table1 tr th {
   height: 28px;
   border: 1px solid #2d6c6e;
 }
